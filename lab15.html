@@ -1,0 +1,66 @@
+<html>
+	<head>
+		<script>
+			var canvas;
+			var ctx;
+			var x = 100, y = 100;
+			var isPressed = false;
+			var dx = 0, dy = 0;
+			var size = 50;
+			var color = 'red';
+
+			function init() {
+			canvas = document.getElementById('canvas');
+			ctx = canvas.getContext('2d');
+			document.addEventListener("mousemove", drag);
+			document.addEventListener("mousedown", down);
+			document.addEventListener("mouseup", up);
+			ctx.fillStyle = color;
+			ctx.fillRect(x,y,size,size);
+			ctx.fillRect(x+100,y+100,size,size);
+			ctx.strokeRect(0,0,800,400);
+			document.addEventListener("keydown", move);
+			document.addEventListener("mousemove", handleMoved);
+			}
+			
+			function down(event) {
+			dx = event.offsetX-x;
+			dy = event.offsetY-y;
+			isPressed = true;
+			}
+			
+			function up() {
+			isPressed = false;
+			}
+			
+			function drag(event) {
+			if (isPressed && dx>0 && dy>0 && dx<size && dy<size) {
+			ctx.clearRect(x,y,size,size);
+			x = event.offsetX-dx;
+			y = event.offsetY-dy;
+			ctx.fillRect(x,y,size,size);
+			}
+			}
+			
+			function move(event) {
+			ctx.clearRect(x,y,size,size);
+			if (event.keyCode == 49) {color='blue';}
+			if (event.keyCode == 50) {color='red';}
+			if (event.keyCode == 51) {color='green';}
+			ctx.fillStyle = color;
+			ctx.fillRect(x,y,size,size);
+			}
+			
+			function handleMoved(event) {
+			if (!isPressed) {
+			ctx.fillStyle = color;
+			} else {
+			ctx.fillStyle = 'grey';}
+			}
+			
+</script>
+</head>
+<body onload="init();">
+		<canvas id="canvas" width="800" height="400"></canvas>
+	</body>
+</html>
